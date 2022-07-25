@@ -20,6 +20,7 @@ import { Link, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const AddNewPresentation = () => {
+
 	let [editorState, setEditorState] = useState('');
 	let [isAddNew, setIsAddNew] = useState(false);
 	let [editSlide, setEditSlide] = useState(null);
@@ -29,6 +30,7 @@ const AddNewPresentation = () => {
 	let [presentationTitle, setPresentationTitle] = useState('');
 	let [isTitleEdit, setIsTitleEdit] = useState(false);
 	let [tempPresentationTitle, setTempPresentationTitle] = useState('');
+	let [uploadedImages, setUploadedImages] = useState([]);
 
 	let { uid } = useSelector(state => state.authUser);
 	let { slides: _slides } = useSelector(state => state.presentation);
@@ -87,6 +89,24 @@ const AddNewPresentation = () => {
 			} else setEditSlide(null);
 		}
 	}, [_slides]);
+
+	function _uploadImageCallBack(file) {
+		
+		const imageObject = {
+			file: file,
+			localSrc: URL.createObjectURL(file),
+		}
+
+		uploadedImages.push(imageObject);
+
+		setUploadedImages(uploadedImages);
+
+		return new Promise(
+			(resolve, reject) => {
+				resolve({ data: { link: imageObject.localSrc } });
+			}
+		);
+	}
 
 	return (
 		<>
@@ -165,10 +185,10 @@ const AddNewPresentation = () => {
 									/>
 									{(presentationTitle == '' ||
 										isTitleEdit == true) && (
-										<Button className='ml-1' type='submit'>
-											<i className='fa fa-save'></i>
-										</Button>
-									)}
+											<Button className='ml-1' type='submit'>
+												<i className='fa fa-save'></i>
+											</Button>
+										)}
 									{presentationTitle != '' && !isTitleEdit && (
 										<Button
 											onClick={() => setIsTitleEdit(true)}
@@ -181,11 +201,10 @@ const AddNewPresentation = () => {
 								</div>
 
 								<small
-									className={`d-block mt-2 mb-3 justify-content-end text-right ${
-										tempPresentationTitle.length > 20
+									className={`d-block mt-2 mb-3 justify-content-end text-right ${tempPresentationTitle.length > 20
 											? 'text-danger'
 											: ''
-									}`}
+										}`}
 								>
 									{tempPresentationTitle.length}/20
 								</small>
@@ -276,6 +295,15 @@ const AddNewPresentation = () => {
 								wrapperClassName='wrapperClassName'
 								editorClassName='editorClassName'
 								onEditorStateChange={setEditorState}
+								toolbar={{
+									inline: { inDropdown: true },
+									list: { inDropdown: true },
+									textAlign: { inDropdown: true },
+									link: { inDropdown: true },
+									history: { inDropdown: true },
+									image: { uploadCallback: _uploadImageCallBack },
+									inputAccept: 'application/pdf,text/plain,application/vnd.openxmlformatsofficedocument.wordprocessingml.document,application/msword,application/vnd.ms-excel'
+								}}
 							/>
 							<div className='d-flex p-4 justify-content-end'>
 								<Button
