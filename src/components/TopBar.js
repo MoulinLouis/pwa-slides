@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 import { Button, Container } from 'reactstrap';
 import Profile from '../assets/img/profile.jpg';
-import Logo from '../assets/img/logo.jpg';
+import Logo from '../assets/img/logo_slides.png';
 
 const TopBar = () => {
 	const history = useHistory();
