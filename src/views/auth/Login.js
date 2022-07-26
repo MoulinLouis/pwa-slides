@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { Button } from 'reactstrap';
 import { useDispatch } from 'react-redux';
-import { login, signInGit, signInGoogle } from '../../store/actions/authAction';
-import { Link, useHistory } from 'react-router-dom';
+import { signInGit, signInGoogle } from '../../store/actions/authAction';
+import { useHistory } from 'react-router-dom';
 
 const Login = () => {
 	const history = useHistory();
 	const dispatch = useDispatch();
-	const [mail, setMail] = useState('');
-	const [pass, setPass] = useState('');
 
 	return (
 		<div className='login-form'>

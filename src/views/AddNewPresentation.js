@@ -40,20 +40,27 @@ const AddNewPresentation = () => {
 	let dispatch = useDispatch();
 	let params = useParams();
 	useEffect(() => {
-		if (autoSave) {
-			clearTimeout(autoSave);
-			setAutosave(null);
-		}
+		if (presentationTitle == "autosave") {
+			if (autoSave) {
+				clearTimeout(autoSave);
+				setAutosave(null);
+			}
 
-		if (editorState != '') {
-			let rawEditorContent = draftToHtml(
-				convertToRaw(editorState.getCurrentContent())
-			);
-			
-			const autoSaveTimeout = setTimeout(() => {
-				handleSave(true);
-			}, 1000);
-			setAutosave(autoSaveTimeout);
+			if (editorState != '') {
+				let rawEditorContent = draftToHtml(
+					convertToRaw(editorState.getCurrentContent())
+				);
+				const autoSaveTimeout = setTimeout(() => {
+					handleAutoSave(true);
+				}, 1000);
+				setAutosave(autoSaveTimeout);
+			}
+		} else {
+			if (editorState != '') {
+				let rawEditorContent = draftToHtml(
+					convertToRaw(editorState.getCurrentContent())
+				);
+			}
 		}
 	}, [editorState]);
 
@@ -114,13 +121,10 @@ const AddNewPresentation = () => {
 			);
 	}
 
-	const handleSave = (autosave = false) => {
-		if (!autosave) {
-			setIsAddNew(false);
-			setEditorState('');
-			setIsLoading(true);
-		}
-		console.log(editSlide);
+	const handleSave = () => {
+		setIsAddNew(false);
+		setEditorState('');
+		setIsLoading(true);
 		if (editSlide == null) {
 			dispatch(
 				addSlide({
@@ -136,14 +140,6 @@ const AddNewPresentation = () => {
 						slides.slides.length,
 				})
 			);
-			// setSlides(prevState => [
-			// 	...prevState,
-			// 	draftToHtml(
-			// 		convertToRaw(
-			// 			editorState.getCurrentContent()
-			// 		)
-			// 	),
-			// ]);
 		} else {
 			editSlide.slideContent =
 				draftToHtml(
@@ -152,21 +148,42 @@ const AddNewPresentation = () => {
 					)
 				);
 			dispatch(updateSlide(editSlide));
-			// dispatch(
-			// 	addSlide({
-			// 		presentationId,
-			// 		userId: uid,
-			// 	})
-			// );
-			// setSlides(prevState => {
-			// 	prevState[editSlideIdx] =
-			// 		draftToHtml(
-			// 			convertToRaw(
-			// 				editorState.getCurrentContent()
-			// 			)
-			// 		);
-			// 	return [...prevState];
-			// });
+		}
+		setEditSlide(null);
+	}
+
+
+	const handleAutoSave = (autosave = false) => {
+		if (!autosave) {
+			setIsAddNew(false);
+			setEditorState('');
+			setIsLoading(true);
+		}
+		console.log(editSlide);
+		if (editSlide == null) {
+			setEditSlide(true)
+			dispatch(
+				addSlide({
+					presentationTitle,
+					presentationId,
+					userId: uid,
+					slideContent: draftToHtml(
+						convertToRaw(
+							editorState.getCurrentContent()
+						)
+					),
+					slideIdx:
+						slides.slides.length,
+				})
+			);
+		} else {
+			editSlide.slideContent =
+				draftToHtml(
+					convertToRaw(
+						editorState.getCurrentContent()
+					)
+				);
+			dispatch(updateSlide(editSlide));
 		}
 		if (!autosave) {
 			setEditSlide(null);
@@ -215,7 +232,7 @@ const AddNewPresentation = () => {
 	}, [_slides]);
 
 	function _uploadImageCallBack(file) {
-		
+
 		const imageObject = {
 			file: file,
 			localSrc: URL.createObjectURL(file),
@@ -293,8 +310,8 @@ const AddNewPresentation = () => {
 
 								<small
 									className={`d-block mt-2 mb-3 justify-content-end text-right ${tempPresentationTitle.length > 20
-											? 'text-danger'
-											: ''
+										? 'text-danger'
+										: ''
 										}`}
 								>
 									{tempPresentationTitle.length}/20
@@ -378,7 +395,7 @@ const AddNewPresentation = () => {
 									inputAccept: 'application/pdf,text/plain,application/vnd.openxmlformatsofficedocument.wordprocessingml.document,application/msword,application/vnd.ms-excel'
 								}}
 							/>
-							<div className='d-none p-4 justify-content-end'>
+							<div className={(presentationTitle == "autosave" ? 'd-none' : 'd-flex') + ' p-4 justify-content-end'}>
 								<Button
 									disabled={editorState == ''}
 									color='dark'

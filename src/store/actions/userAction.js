@@ -1,4 +1,4 @@
-import firebase, { db } from '../../config/firebase';
+import { db } from '../../config/firebase';
 import { USER_FETCH } from '../types';
 
 export const fetchUsers = uid => async dispatch => {

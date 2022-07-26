@@ -2,7 +2,6 @@ import AddNewPresentation from '../views/AddNewPresentation';
 import Login from '../views/auth/Login';
 import PresentationDetail from '../views/PresentationDetail';
 import Presentations from '../views/Presentations';
-import Loader from '../views/Loader';
 import Logout from '../views/Logout';
 
 let routes = [

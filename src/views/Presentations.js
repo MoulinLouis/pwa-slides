@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import {
 	Button,
 	Col,
@@ -18,7 +18,7 @@ import {
 	fetchCollaboratorPresentations,
 	fetchPresentations,
 } from '../store/actions/presentationAction';
-import firebase, { db } from '../config/firebase';
+import { db } from '../config/firebase';
 import { fetchAllUsers } from '../store/actions/userAction';
 
 const Presentations = () => {
