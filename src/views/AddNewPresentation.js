@@ -35,15 +35,25 @@ const AddNewPresentation = () => {
 	let { uid } = useSelector(state => state.authUser);
 	let { slides: _slides } = useSelector(state => state.presentation);
 
+	const [autoSave, setAutosave] = useState(null);
+
 	let dispatch = useDispatch();
 	let params = useParams();
 	useEffect(() => {
+		if (autoSave) {
+			clearTimeout(autoSave);
+			setAutosave(null);
+		}
+
 		if (editorState != '') {
-			console.log({ editorState });
 			let rawEditorContent = draftToHtml(
 				convertToRaw(editorState.getCurrentContent())
 			);
-			console.log({ rawEditorContent });
+			
+			const autoSaveTimeout = setTimeout(() => {
+				handleSave(true);
+			}, 1000);
+			setAutosave(autoSaveTimeout);
 		}
 	}, [editorState]);
 
@@ -68,6 +78,120 @@ const AddNewPresentation = () => {
 		}
 		_fetchPresentation();
 	}, [presentationId]);
+
+	const handleSubmit = async e => {
+		e.preventDefault();
+		if (
+			e.target.presentationTitle.value
+				.length <= 20
+		)
+			if (isTitleEdit) {
+				setIsTitleEdit(false);
+				setPresentationTitle(
+					e.target.presentationTitle.value
+				);
+				if (
+					slides.slides &&
+					slides.slides.length > 0
+				)
+					await dispatch(
+						updatePresentationTitle({
+							presentationId,
+							presentationTitle:
+								e.target
+									.presentationTitle
+									.value,
+						})
+					);
+			} else {
+				setPresentationTitle(
+					e.target.presentationTitle.value
+				);
+			}
+		else
+			toast.error(
+				'Le titre doit faire 20 caractères ou moins'
+			);
+	}
+
+	const handleSave = (autosave = false) => {
+		if (!autosave) {
+			setIsAddNew(false);
+			setEditorState('');
+			setIsLoading(true);
+		}
+		console.log(editSlide);
+		if (editSlide == null) {
+			dispatch(
+				addSlide({
+					presentationTitle,
+					presentationId,
+					userId: uid,
+					slideContent: draftToHtml(
+						convertToRaw(
+							editorState.getCurrentContent()
+						)
+					),
+					slideIdx:
+						slides.slides.length,
+				})
+			);
+			// setSlides(prevState => [
+			// 	...prevState,
+			// 	draftToHtml(
+			// 		convertToRaw(
+			// 			editorState.getCurrentContent()
+			// 		)
+			// 	),
+			// ]);
+		} else {
+			editSlide.slideContent =
+				draftToHtml(
+					convertToRaw(
+						editorState.getCurrentContent()
+					)
+				);
+			dispatch(updateSlide(editSlide));
+			// dispatch(
+			// 	addSlide({
+			// 		presentationId,
+			// 		userId: uid,
+			// 	})
+			// );
+			// setSlides(prevState => {
+			// 	prevState[editSlideIdx] =
+			// 		draftToHtml(
+			// 			convertToRaw(
+			// 				editorState.getCurrentContent()
+			// 			)
+			// 		);
+			// 	return [...prevState];
+			// });
+		}
+		if (!autosave) {
+			setEditSlide(null);
+		}
+	}
+
+	const handleAddNewSlide = (slide) => {
+		const blocksFromHtml = htmlToDraft(
+			slide.slideContent
+		);
+		const { contentBlocks, entityMap } =
+			blocksFromHtml;
+		const contentState =
+			ContentState.createFromBlockArray(
+				contentBlocks,
+				entityMap
+			);
+		setEditorState(
+			EditorState.createWithContent(
+				contentState
+			)
+		);
+		setIsAddNew(true);
+		setEditSlide(slide);
+	}
 
 	useEffect(() => {
 		setSlides(_slides);
@@ -128,40 +252,7 @@ const AddNewPresentation = () => {
 								<i className='fa fa-times'></i>
 							</Button>
 							<Form
-								onSubmit={async e => {
-									e.preventDefault();
-									if (
-										e.target.presentationTitle.value
-											.length <= 20
-									)
-										if (isTitleEdit) {
-											setIsTitleEdit(false);
-											setPresentationTitle(
-												e.target.presentationTitle.value
-											);
-											if (
-												slides.slides &&
-												slides.slides.length > 0
-											)
-												await dispatch(
-													updatePresentationTitle({
-														presentationId,
-														presentationTitle:
-															e.target
-																.presentationTitle
-																.value,
-													})
-												);
-										} else {
-											setPresentationTitle(
-												e.target.presentationTitle.value
-											);
-										}
-									else
-										toast.error(
-											'Le titre doit faire 20 caractères ou moins'
-										);
-								}}
+								onSubmit={handleSubmit}
 							>
 								<div className='d-flex '>
 									<Input
@@ -214,25 +305,7 @@ const AddNewPresentation = () => {
 									<div
 										key={'Slide' + slide.id}
 										className='add-new-presentation__card mb-3'
-										onClick={() => {
-											const blocksFromHtml = htmlToDraft(
-												slide.slideContent
-											);
-											const { contentBlocks, entityMap } =
-												blocksFromHtml;
-											const contentState =
-												ContentState.createFromBlockArray(
-													contentBlocks,
-													entityMap
-												);
-											setEditorState(
-												EditorState.createWithContent(
-													contentState
-												)
-											);
-											setIsAddNew(true);
-											setEditSlide(slide);
-										}}
+										onClick={() => handleAddNewSlide(slide)}
 									>
 										<RevealJS>
 											<Slide>
@@ -258,7 +331,7 @@ const AddNewPresentation = () => {
 						</>
 					)}
 				</div>
-				<div class='add-new-presentation__editor'>
+				<div className='add-new-presentation__editor'>
 					<div className='p-3'>
 						<Button
 							className='mr-2 d-inline-block d-md-none'
@@ -282,7 +355,7 @@ const AddNewPresentation = () => {
 									className=''
 								>
 									<span className=''>Lecture</span>
-									<i class='fa fa-solid fa-play ml-2'></i>
+									<i className='fa fa-solid fa-play ml-2'></i>
 								</Button>
 							)}
 						</div>
@@ -305,63 +378,11 @@ const AddNewPresentation = () => {
 									inputAccept: 'application/pdf,text/plain,application/vnd.openxmlformatsofficedocument.wordprocessingml.document,application/msword,application/vnd.ms-excel'
 								}}
 							/>
-							<div className='d-flex p-4 justify-content-end'>
+							<div className='d-none p-4 justify-content-end'>
 								<Button
 									disabled={editorState == ''}
 									color='dark'
-									onClick={() => {
-										setIsAddNew(false);
-										setEditorState('');
-										setIsLoading(true);
-										if (editSlide == null) {
-											dispatch(
-												addSlide({
-													presentationTitle,
-													presentationId,
-													userId: uid,
-													slideContent: draftToHtml(
-														convertToRaw(
-															editorState.getCurrentContent()
-														)
-													),
-													slideIdx:
-														slides.slides.length,
-												})
-											);
-											// setSlides(prevState => [
-											// 	...prevState,
-											// 	draftToHtml(
-											// 		convertToRaw(
-											// 			editorState.getCurrentContent()
-											// 		)
-											// 	),
-											// ]);
-										} else {
-											editSlide.slideContent =
-												draftToHtml(
-													convertToRaw(
-														editorState.getCurrentContent()
-													)
-												);
-											dispatch(updateSlide(editSlide));
-											// dispatch(
-											// 	addSlide({
-											// 		presentationId,
-											// 		userId: uid,
-											// 	})
-											// );
-											// setSlides(prevState => {
-											// 	prevState[editSlideIdx] =
-											// 		draftToHtml(
-											// 			convertToRaw(
-											// 				editorState.getCurrentContent()
-											// 			)
-											// 		);
-											// 	return [...prevState];
-											// });
-										}
-										setEditSlide(null);
-									}}
+									onClick={handleSave}
 								>
 									Sauvegarder
 								</Button>
