@@ -138,7 +138,7 @@ export const signInGit = history => async dispatch => {
 				});
 		})
 		.catch(error => {
-			console.log('RR', error.message);
+			// console.log('RR', error.message);
 			alert(error.message);
 			// dispatch(loginLoading(false));
 		});

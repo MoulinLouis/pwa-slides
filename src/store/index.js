@@ -4,12 +4,12 @@ import thunk from "redux-thunk";
 import CryptoJS from "crypto-js";
 
 const saveToLocalStorage = (state) => {
-  console.log(state.authUser);
+  // console.log(state.authUser);
   const serializedUid = CryptoJS.AES.encrypt(
     JSON.stringify(state.authUser),
     "my-secret-key"
   ).toString();
-  console.log(serializedUid);
+  // console.log(serializedUid);
   localStorage.setItem("auth", serializedUid);
 };
 

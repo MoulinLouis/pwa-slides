@@ -55,7 +55,7 @@ export const fetchCollaboratorPresentations = payload => async dispatch => {
 		.onSnapshot(async snapshot => {
 			let presentations = [];
 			for (let doc of snapshot.docs) {
-				console.log(doc.data());
+				// console.log(doc.data());
 				let presentationId = doc.data().presentationId;
 				let presentationDoc = await db
 					.collection('presentations')
@@ -121,7 +121,7 @@ export const fetchAllPresentations = () => async dispatch => {
 
 export const updateSlide = payload => async dispatch => {
 	let { id, ...rest } = payload;
-	console.log({ payload });
+	// console.log({ payload });
 	db.collection('slides')
 		.doc(id)
 		.update({ ...rest });
@@ -165,7 +165,7 @@ export const fetchPresentations = payload => async dispatch => {
 			for (let doc of presentationSnapshot.docs) {
 				let presentationId = doc.data().presentationId;
 				let presentationData = doc.data();
-				console.log(presentationData);
+				// console.log(presentationData);
 				let presentationDoc = await db
 					.collection('presentations')
 					.doc(presentationId)

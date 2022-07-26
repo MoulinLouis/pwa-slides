@@ -39,11 +39,11 @@ const AddNewPresentation = () => {
 	let params = useParams();
 	useEffect(() => {
 		if (editorState != '') {
-			console.log({ editorState });
+			// console.log({ editorState });
 			let rawEditorContent = draftToHtml(
 				convertToRaw(editorState.getCurrentContent())
 			);
-			console.log({ rawEditorContent });
+			// console.log({ rawEditorContent });
 		}
 	}, [editorState]);
 
@@ -76,7 +76,7 @@ const AddNewPresentation = () => {
 		if (editSlide != null) {
 			let { id } = editSlide;
 			let latestSlide = _slides.slides.find(slide => slide.id == id);
-			console.log({ latestSlide });
+			// console.log({ latestSlide });
 			if (latestSlide) {
 				const blocksFromHtml = htmlToDraft(latestSlide.slideContent);
 				const { contentBlocks, entityMap } = blocksFromHtml;

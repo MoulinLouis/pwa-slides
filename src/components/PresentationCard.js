@@ -58,7 +58,7 @@ const PresentationCard = ({
 		setSearchText(user.email || '');
 	}, [user]);
 
-	console.log('PRES', presentations);
+	// console.log('PRES', presentations);
 
 	return (
 		<>
