@@ -1,8 +1,15 @@
-import AddNewPresentation from '../views/AddNewPresentation';
-import Login from '../views/auth/Login';
-import PresentationDetail from '../views/PresentationDetail';
-import Presentations from '../views/Presentations';
-import Logout from '../views/Logout';
+// import AddNewPresentation from '../views/AddNewPresentation';
+// import Login from '../views/auth/Login';
+// import PresentationDetail from '../views/PresentationDetail';
+// import Presentations from '../views/Presentations';
+// import Logout from '../views/Logout';
+import React, { Suspense, lazy } from 'react';
+
+const Login = lazy(() => import('../views/auth/Login'));
+const Logout = lazy(() => import('../views/Logout'));
+const Presentations = lazy(() => import('../views/Presentations'));
+const AddNewPresentation = lazy(() => import('../views/AddNewPresentation'));
+const PresentationDetail = lazy(() => import('../views/PresentationDetail'));
 
 let routes = [
 	{
