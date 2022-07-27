@@ -7,6 +7,7 @@ import routes from './routes';
 import store from './store';
 import { ToastContainer } from 'react-toastify';
 import React, { Suspense, lazy } from 'react';
+import LoaderLazy from './components/LoaderLazy';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -15,7 +16,7 @@ function App() {
 		<>
 			<Provider store={store}>
 				<BrowserRouter>
-					<Suspense fallback={<div>Loading...</div>}>
+					<Suspense fallback={<LoaderLazy/>}>
 
 						<Switch>
 							{routes.map(route => {
