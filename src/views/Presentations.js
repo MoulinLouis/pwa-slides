@@ -38,7 +38,7 @@ const Presentations = () => {
 	// console.log('PREs', presentations);
 	// console.log('USRs', users);
 	// console.log('ALL USRs', allUsers);
-	console.log('COLAB', presentationsCollaborateAll);
+	// console.log('COLAB', presentationsCollaborateAll);
 
 	const findUserName = id => {
 		// console.log('ID', id);
@@ -97,7 +97,7 @@ const Presentations = () => {
 			_fetchCollaboratorPresentations();
 	}, []);
 	useEffect(() => {
-		console.log({ isLoading });
+		// console.log({ isLoading });
 	}, [isLoading]);
 
 	useEffect(() => {
