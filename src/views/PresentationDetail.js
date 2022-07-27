@@ -33,7 +33,7 @@ function MyPresentation() {
 	return (
 		<div className='presentation-slider__container'>
 			<div className='ml-5 mt-3'>
-				<Button size='sm' tag={Link} to='/presentations'>
+				<Button size='sm' tag={Link} to='/presentations' name='back_to_presentation'>
 					<i className='fa fa-angle-left'></i>
 					<span className='ml-2'>Retour aux présentations</span>
 				</Button>

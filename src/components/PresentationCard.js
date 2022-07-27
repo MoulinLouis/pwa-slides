@@ -76,6 +76,8 @@ const PresentationCard = ({
 								color='dark'
 								tag={Link}
 								to={`/presentations/${id}`}
+								name='view'
+								aria-label='View the presentation'
 							>
 								<i className='fa fa-eye'></i>
 							</Button>
@@ -85,6 +87,8 @@ const PresentationCard = ({
 								color='dark'
 								tag={Link}
 								to={`/presentations/edit/${id}`}
+								name='edit'
+								aria-label='Edit the presentation'
 							>
 								<i className='fa fa-pen'></i>
 							</Button>
@@ -96,6 +100,8 @@ const PresentationCard = ({
 									toggle();
 									setCollaborators(collaborators);
 								}}
+								name='collaborators'
+								aria-label='Collaborators'
 							>
 								<i className='fa fa-users'></i>
 							</Button>
@@ -104,6 +110,8 @@ const PresentationCard = ({
 							<Button
 								color='dark'
 								onClick={() => setIsDelete(true)}
+								name='delete'
+								aria-label='Delete'
 							>
 								<i className='fa fa-trash'></i>
 							</Button>
@@ -112,6 +120,8 @@ const PresentationCard = ({
 							<Button
 								color='dark'
 								onClick={() => setIsShare(true)}
+								name='share'
+								aria-label='Share'
 							>
 								<i className='fa fa-share'></i>
 							</Button>
@@ -138,6 +148,7 @@ const PresentationCard = ({
 					<Button
 						color='outline-danger'
 						onClick={() => setIsDelete(false)}
+						name='cancel'
 					>
 						Annuler
 					</Button>
@@ -149,6 +160,7 @@ const PresentationCard = ({
 							);
 							setIsDelete(false);
 						}}
+						name='delete'
 					>
 						Supprimer
 					</Button>
@@ -197,6 +209,7 @@ const PresentationCard = ({
 					<Button
 						color='outline-danger'
 						onClick={() => setIsShare(false)}
+						name='cancel'
 					>
 						Annuler
 					</Button>
@@ -215,6 +228,7 @@ const PresentationCard = ({
 							);
 							setIsShare(false);
 						}}
+						name='share'
 					>
 						Partager
 					</Button>
@@ -239,6 +253,7 @@ const PresentationCard = ({
 											? Profile
 											: collaborator.profile_image
 									}
+									alt='avatar'
 								/>
 							</div>
 							<div

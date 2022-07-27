@@ -66,6 +66,7 @@ const Login = () => {
 					onClick={() => {
 						dispatch(signInGoogle(history));
 					}}
+					name='google'
 				>
 					<div className='button__icon'>
 						<i className='fab fa-google'></i>
@@ -79,6 +80,7 @@ const Login = () => {
 					onClick={() => {
 						dispatch(signInGit(history));
 					}}
+					name='git'
 				>
 					<div className='button__icon'>
 						<i className='fab fa-github'></i>

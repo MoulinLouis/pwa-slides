@@ -248,6 +248,7 @@ const AddNewPresentation = () => {
 								onClick={() =>
 									document.body.classList.remove('open')
 								}
+								name='close'
 							>
 								<i className='fa fa-times'></i>
 							</Button>
@@ -276,7 +277,7 @@ const AddNewPresentation = () => {
 									/>
 									{(presentationTitle == '' ||
 										isTitleEdit == true) && (
-											<Button className='ml-1' type='submit'>
+											<Button className='ml-1' type='submit' name='save'>
 												<i className='fa fa-save'></i>
 											</Button>
 										)}
@@ -285,6 +286,7 @@ const AddNewPresentation = () => {
 											onClick={() => setIsTitleEdit(true)}
 											className='ml-1'
 											type='button'
+											name='edit'
 										>
 											<i className='fa fa-pen'></i>
 										</Button>
@@ -337,11 +339,12 @@ const AddNewPresentation = () => {
 							className='mr-2 d-inline-block d-md-none'
 							size='sm'
 							onClick={() => document.body.classList.add('open')}
+							name='close'
 						>
 							<i className='fa fa-bars'></i>
 						</Button>
 						<div className='d-flex mt-2 mt-md-0 justify-content-between'>
-							<Button size='sm' tag={Link} to='/presentations'>
+							<Button size='sm' tag={Link} to='/presentations' name='back_to_presentation'>
 								<i className='fa fa-angle-left'></i>
 								<span className='ml-2'>
 									Retour aux présentations
@@ -352,7 +355,7 @@ const AddNewPresentation = () => {
 									size='sm'
 									tag={Link}
 									to={`/presentations/${params.id}`}
-									className=''
+									name='play_presentation'
 								>
 									<span className=''>Lecture</span>
 									<i className='fa fa-solid fa-play ml-2'></i>
@@ -383,6 +386,7 @@ const AddNewPresentation = () => {
 									disabled={editorState == ''}
 									color='dark'
 									onClick={handleSave}
+									name='save'
 								>
 									Sauvegarder
 								</Button>

@@ -15,7 +15,7 @@ const TopBar = () => {
 			<Container>
 				<div className='d-flex'>
 					<Link to='/presentations' className='top-bar__logo'>
-						<img src={Logo} alt='logo copyright beamy' />
+						<img src={Logo} alt='logo copyright beamy' alt='logo'/>
 					</Link>
 					<div className='ml-auto d-flex align-items-center'>
 						<div className='top-bar__profile d-flex align-items-center'>
@@ -27,6 +27,7 @@ const TopBar = () => {
 											? Profile
 											: user.profile_image
 									}
+									alt='avatar'
 								/>
 							</div>
 							<div
@@ -44,6 +45,7 @@ const TopBar = () => {
 							className='ml-4 py-2 px-4'
 							tag={Link}
 							to='/logout'
+							name='logout'
 						>
 							Déconnexion
 						</Button>

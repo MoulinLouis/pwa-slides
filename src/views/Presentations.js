@@ -121,6 +121,7 @@ const Presentations = () => {
 						let id = db.collection('presentation').doc().id;
 						history.push(`/presentations/add/${id}`);
 					}}
+					name='add'
 				>
 					<i className='fa fa-plus mr-2'></i>
 					Créer une présentation
