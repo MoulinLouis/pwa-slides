@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import {
 	Button,
 	ButtonGroup,
-	Col,
 	Input,
 	Modal,
 	ModalBody,
@@ -14,10 +13,7 @@ import {
 	Row,
 } from 'reactstrap';
 import {
-	deletePresentation,
-	fetchAllCollaboratorPresentations,
-	fetchAllPresentations,
-	fetchPresentations,
+	deletePresentation
 } from '../store/actions/presentationAction';
 import { addCollaborator, fetchAllUsers } from '../store/actions/userAction';
 import Profile from '../assets/img/profile.jpg';
@@ -127,16 +123,6 @@ const PresentationCard = ({
 							</Button>
 						)}
 					</ButtonGroup>
-					{/* <Button
-					size='sm'
-					color='dark'
-					
-				>
-					View
-				</Button>
-				<Button size='sm' color='dark' className='ml-auto'>
-					<i className='fa fa-share'></i>
-				</Button> */}
 				</div>
 			</div>
 			<Modal isOpen={isDelete} centered>
