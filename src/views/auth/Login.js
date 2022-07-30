@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button } from 'reactstrap';
 import { useDispatch } from 'react-redux';
 import { signInGit, signInGoogle } from '../../store/actions/authAction';

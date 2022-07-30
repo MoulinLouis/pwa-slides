@@ -1,13 +1,10 @@
 import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button, Container } from 'reactstrap';
 import Profile from '../assets/img/profile.jpg';
 import Logo from '../assets/img/logo_slides.png';
 
 const TopBar = () => {
-	const history = useHistory();
-	const dispatch = useDispatch();
 
 	let { user } = useSelector(state => state.authUser);
 	return (
@@ -15,15 +12,15 @@ const TopBar = () => {
 			<Container>
 				<div className='d-flex'>
 					<Link to='/presentations' className='top-bar__logo'>
-						<img src={Logo} alt='logo copyright beamy' alt='logo'/>
+						<img src={Logo} alt='logo copyright beamy'/>
 					</Link>
 					<div className='ml-auto d-flex align-items-center'>
 						<div className='top-bar__profile d-flex align-items-center'>
 							<div className='top-bar__profile__avatar'>
 								<img
 									src={
-										user.profile_image == '' ||
-										user.profile_image == null
+										user.profile_image === '' ||
+										user.profile_image === null
 											? Profile
 											: user.profile_image
 									}

@@ -8,7 +8,7 @@ import './assets/sass/index.scss';
 
 ReactDOM.render(
 	<React.StrictMode>
-		<App />
+		<App key={89374892374}/>
 	</React.StrictMode>,
 	document.getElementById('root')
 );

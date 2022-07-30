@@ -4,7 +4,6 @@ import {
 	ZoomPlugin,
 	RevealJS,
 	Slide,
-	H1,
 	NotesPlugin,
 } from '@gregcello/revealjs-react';
 import { useEffect } from 'react';
@@ -29,6 +28,7 @@ function MyPresentation() {
 				presentationId: param.id,
 			})
 		);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<div className='presentation-slider__container'>

@@ -7,7 +7,7 @@ const Default = props => {
 	let { uid } = useSelector(state => state.authUser);
 
 	useEffect(() => {
-		if (uid == '' || uid == null) {
+		if (uid === '' || uid === null) {
 			history.push('/auth/sign-in');
 		}
 	}, [uid]);

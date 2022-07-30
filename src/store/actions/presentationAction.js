@@ -1,7 +1,6 @@
 import { db } from '../../config/firebase';
 import {
 	PRESENTATIONS_FETCH,
-	PRESENTATION_ADD,
 	PRESENTATION_COLLABORATE_FETCH,
 	PRESENTATION_FETCH,
 } from '../types';

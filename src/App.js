@@ -6,7 +6,7 @@ import Main from './layout/Main';
 import routes from './routes';
 import store from './store';
 import { ToastContainer } from 'react-toastify';
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense } from 'react';
 import LoaderLazy from './components/LoaderLazy';
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -19,13 +19,13 @@ function App() {
 					<Suspense fallback={<LoaderLazy/>}>
 
 						<Switch>
-							{routes.map(route => {
+							{routes.map((route, i) => {
 								switch (route.layout) {
 									case 'main':
 										return (
 											<Route exact path={route.path}>
 												<Main>
-													<route.component />
+													<route.component key={i}/>
 												</Main>
 											</Route>
 										);
@@ -33,16 +33,16 @@ function App() {
 										return (
 											<Route exact path={route.path}>
 												<Auth>
-													<route.component />
+													<route.component key={i}/>
 												</Auth>
 											</Route>
 										);
-									case 'auth':
+									case 'default':
 									default:
 										return (
 											<Route exact path={route.path}>
 												<Default>
-													<route.component />
+													<route.component key={i}/>
 												</Default>
 											</Route>
 										);

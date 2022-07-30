@@ -10,12 +10,11 @@ import {
 	ModalBody,
 	ModalFooter,
 	ModalHeader,
-	Row,
 } from 'reactstrap';
 import {
 	deletePresentation
 } from '../store/actions/presentationAction';
-import { addCollaborator, fetchAllUsers } from '../store/actions/userAction';
+import { addCollaborator } from '../store/actions/userAction';
 import Profile from '../assets/img/profile.jpg';
 
 const PresentationCard = ({
@@ -37,15 +36,8 @@ const PresentationCard = ({
 	let dispatch = useDispatch();
 
 	let [user, setUser] = useState('');
-	let { uid } = useSelector(state => state.authUser);
 	const [isOpen, setIsOpen] = useState(false);
-	let { users, allUsers } = useSelector(state => state.user);
-	let {
-		presentations,
-		presAll,
-		presentationsCollaborate,
-		presentationsCollaborateAll,
-	} = useSelector(state => state.presentation);
+	let { users } = useSelector(state => state.user);
 	const toggle = () => {
 		setIsOpen(!isOpen);
 	};
@@ -175,7 +167,7 @@ const PresentationCard = ({
 								setSearchText(e.target.value);
 							}}
 						></Input>
-						{user == '' && searchText != '' && (
+						{user === '' && searchText !== '' && (
 							<div className='position-absolute w-100 bg-white search__auto-complete'>
 								{searchedUsers.map(user => (
 									<div
@@ -234,8 +226,8 @@ const PresentationCard = ({
 							<div className='top-bar__profile__avatar'>
 								<img
 									src={
-										collaborator.profile_image == '' ||
-										collaborator.profile_image == null
+										collaborator.profile_image === '' ||
+										collaborator.profile_image === null
 											? Profile
 											: collaborator.profile_image
 									}

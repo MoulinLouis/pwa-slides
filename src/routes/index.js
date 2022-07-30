@@ -3,7 +3,7 @@
 // import PresentationDetail from '../views/PresentationDetail';
 // import Presentations from '../views/Presentations';
 // import Logout from '../views/Logout';
-import React, { Suspense, lazy } from 'react';
+import { lazy } from 'react';
 
 const Login = lazy(() => import('../views/auth/Login'));
 const Logout = lazy(() => import('../views/Logout'));

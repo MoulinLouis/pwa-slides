@@ -10,14 +10,14 @@ const Main = props => {
 	let { users } = useSelector(state => state.user);
 
 	useEffect(() => {
-		if (uid == '' || uid == null) {
+		if (uid === '' || uid === null) {
 			history.push('/auth/sign-in');
 		}
 	}, [uid]);
 
 	let dispatch = useDispatch();
 	useEffect(() => {
-		if (users.length == 0) dispatch(fetchUsers(uid));
+		if (users.length === 0) dispatch(fetchUsers(uid));
 	}, []);
 
 	return (
